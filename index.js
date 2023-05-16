@@ -1,5 +1,6 @@
 import {SetRam} from "./components/ram.js";
 import {SetDataStorage} from "./components/data-storage.js";
+import {SetProcessorCooling} from "./components/processor-cooling.js";
 
 
 
@@ -8,8 +9,9 @@ const main = async () => {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    await SetRam()
-    await SetDataStorage()
+    SetProcessorCooling()
+    SetRam()
+    SetDataStorage()
 
     // while (true) {
     //     SetRam()
