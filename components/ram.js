@@ -42,11 +42,14 @@ const UpdateURL = async (value) => {
 
 export const SetRam = async () => {
 
+    let isUpdate = false
+
     const result = await pool.query('SELECT * FROM ram;')
 
     result.rows.map(async (element) => {
         const response = await isNormalUrl(element.url)
         if (response === false) {
+            isUpdate = true
             const newUrl = await UpdateURL(Math.log2(element.totalVolume))
             console.log(newUrl)
             await pool.query('UPDATE ram SET url= $1 WHERE id= $2;', [newUrl, element.id])
@@ -54,4 +57,5 @@ export const SetRam = async () => {
 
     })
 
+    return isUpdate
 }

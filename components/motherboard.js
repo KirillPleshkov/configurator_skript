@@ -45,12 +45,15 @@ const UpdateURL = async (parsingId) => {
 
 export const SetMotherboard = async () => {
 
+    let isUpdate = false
+
     const result = await pool.query('SELECT * FROM motherboard;')
 
     result.rows.map(async (element) => {
 
         const response = await isNormalUrl(element.url)
         if (response === false) {
+            isUpdate = true
             const newUrl = await UpdateURL(element.parserId)
             console.log(newUrl)
             await pool.query('UPDATE motherboard SET url= $1 WHERE id= $2;', [newUrl, element.id])
@@ -58,4 +61,5 @@ export const SetMotherboard = async () => {
 
     })
 
+    return isUpdate
 }

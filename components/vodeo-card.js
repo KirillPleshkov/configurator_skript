@@ -14,25 +14,21 @@ const isNormalUrl = async (url) => {
     }
 }
 
-const UpdateURL = async (power) => {
+const UpdateURL = async (parsingId) => {
 
-    const URL = 'https://n-katalog.ru/category/bloki-pitaniya/list?sort=PriceAsc'
+    const URL = 'https://n-katalog.ru/category/videokarty/list?sort=PriceAsc'
 
     try {
         const browser = await puppeteer.launch({headless: "new", args: minimal_args})
         const page = await browser.newPage()
         await page.goto(URL)
 
-        await page.type('#cMoshhnostMin', power.toString())
-        await page.type('#cMoshhnostMax', power.toString())
-        await page.waitForTimeout(2000)
+        await page.click('#preset_t_ModelGpu > em')
+        await page.click('#presetModelGpu > li:nth-child('+parsingId+')')
 
-        await page.click('#presetFormFaktor > li:nth-child(1) > label')
         await page.waitForTimeout(1000)
-        await page.click('#presetFormFaktor > li:nth-child(1) > label')
-        await page.waitForTimeout(1000)
-
         await page.click('#tt-info > div.arrow-start > a')
+        await page.waitForTimeout(1000)
 
         const url = page.url()
 
@@ -46,23 +42,24 @@ const UpdateURL = async (power) => {
 }
 
 
-export const SetPowerSupply = async () => {
+export const SetVideoCard = async () => {
 
     let isUpdate = false
 
-    const result = await pool.query('SELECT * FROM "power-supply";')
+    const result = await pool.query('SELECT * FROM "video-card";')
 
     result.rows.map(async (element) => {
 
         const response = await isNormalUrl(element.url)
         if (response === false) {
             isUpdate = true
-            const newUrl = await UpdateURL(element.power)
+            const newUrl = await UpdateURL(element.parserId)
             console.log(newUrl)
-            await pool.query('UPDATE "power-supply" SET url= $1 WHERE id= $2;', [newUrl, element.id])
+            await pool.query('UPDATE "video-card" SET url= $1 WHERE id= $2;', [newUrl, element.id])
         }
 
     })
 
     return isUpdate
+
 }

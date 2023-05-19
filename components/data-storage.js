@@ -42,6 +42,8 @@ const UpdateURL = async (parsingId, URL) => {
 
 export const SetDataStorage = async () => {
 
+    let isUpdate = false
+
     const result = await pool.query('SELECT * FROM "data-storage";')
 
     result.rows.map(async (element) => {
@@ -50,11 +52,14 @@ export const SetDataStorage = async () => {
 
         const response = await isNormalUrl(element.url)
         if (response === false) {
+            isUpdate = true
             const newUrl = await UpdateURL(element.parsingId, type.rows[0].url)
             console.log(newUrl)
             await pool.query('UPDATE "data-storage" SET url= $1 WHERE id= $2;', [newUrl, element.id])
         }
 
     })
+
+    return isUpdate
 
 }
