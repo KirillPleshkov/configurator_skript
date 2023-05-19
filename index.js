@@ -4,10 +4,11 @@ import {SetProcessorCooling} from "./components/processor-cooling.js";
 import {SetPowerSupply} from "./components/power-supply.js";
 import {SetMotherboard} from "./components/motherboard.js";
 import {SetVideoCard} from "./components/vodeo-card.js";
-
+import {SetProcessor} from "./components/processor.js";
 
 
 const main = async () => {
+
     const sleep = (ms) => {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
@@ -21,8 +22,10 @@ const main = async () => {
     // SetPowerSupply()
     //
     // SetMotherboard()
+    //
+    // SetVideoCard()
 
-    SetVideoCard()
+    SetProcessor()
 
     await sleep(10000)
 
