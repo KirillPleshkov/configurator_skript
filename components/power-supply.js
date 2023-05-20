@@ -45,24 +45,21 @@ const UpdateURL = async (power) => {
     }
 }
 
-
-export const SetPowerSupply = async () => {
-
-    let isUpdate = false
-
+const main = async () => {
     const result = await pool.query('SELECT * FROM "power-supply";')
 
     result.rows.map(async (element) => {
 
         const response = await isNormalUrl(element.url)
         if (response === false) {
-            isUpdate = true
             const newUrl = await UpdateURL(element.power)
             console.log(newUrl)
             await pool.query('UPDATE "power-supply" SET url= $1 WHERE id= $2;', [newUrl, element.id])
         }
 
     })
+}
 
-    return isUpdate
+export const SetPowerSupply = () => {
+    main().then(r => console.log(r))
 }

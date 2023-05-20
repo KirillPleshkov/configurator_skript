@@ -13,26 +13,22 @@ const main = async () => {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    // SetProcessorCooling()
-    //
-    // SetRam()
-    //
-    // SetDataStorage()
-    //
-    // SetPowerSupply()
-    //
-    // SetMotherboard()
-    //
-    // SetVideoCard()
-
-    SetProcessor()
-
-    await sleep(10000)
-
-    // while (true) {
-    //     SetRam()
-    //     await sleep(10000)
-    // }
+    while (true) {
+        SetProcessorCooling()
+        await sleep(15000)
+        SetRam()
+        await sleep(15000)
+        SetDataStorage()
+        await sleep(15000)
+        SetPowerSupply()
+        await sleep(15000)
+        SetMotherboard()
+        await sleep(15000)
+        SetVideoCard()
+        await sleep(15000)
+        SetProcessor()
+        await sleep(15000)
+    }
 }
 
 main()

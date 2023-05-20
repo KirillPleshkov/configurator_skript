@@ -46,10 +46,7 @@ const UpdateURL = async (socket, codeName) => {
     }
 }
 
-
-export const SetProcessor = async () => {
-
-    let isUpdate = false
+const main = async () => {
 
     const result = await pool.query('SELECT * FROM processor;')
 
@@ -61,7 +58,6 @@ export const SetProcessor = async () => {
             const socket = await pool.query('SELECT * FROM "processor-series" WHERE id= $1;', [element.seriesId])
             const codeName = await pool.query('SELECT * FROM "processor-code-name" WHERE id= $1;', [element.codeNameId])
 
-            isUpdate = true
             const newUrl = await UpdateURL(socket.rows[0].parserId, codeName.rows[0].parserId)
             console.log(newUrl)
 
@@ -70,5 +66,8 @@ export const SetProcessor = async () => {
 
     })
 
-    return isUpdate
+}
+
+export const SetProcessor = () => {
+    main().then(r => console.log(r))
 }

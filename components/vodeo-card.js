@@ -41,10 +41,7 @@ const UpdateURL = async (parsingId) => {
     }
 }
 
-
-export const SetVideoCard = async () => {
-
-    let isUpdate = false
+const main = async () => {
 
     const result = await pool.query('SELECT * FROM "video-card";')
 
@@ -52,14 +49,14 @@ export const SetVideoCard = async () => {
 
         const response = await isNormalUrl(element.url)
         if (response === false) {
-            isUpdate = true
             const newUrl = await UpdateURL(element.parserId)
             console.log(newUrl)
             await pool.query('UPDATE "video-card" SET url= $1 WHERE id= $2;', [newUrl, element.id])
         }
 
     })
+}
 
-    return isUpdate
-
+export const SetVideoCard = () => {
+    main().then(r => console.log(r))
 }

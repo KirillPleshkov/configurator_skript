@@ -44,10 +44,7 @@ const UpdateURL = async (parsingId, typeParsingId) => {
     }
 }
 
-
-export const SetProcessorCooling = async () => {
-
-    let isUpdate = false
+const main = async () => {
 
     const result = await pool.query('SELECT * FROM "processor-cooling";')
 
@@ -56,8 +53,6 @@ export const SetProcessorCooling = async () => {
         const response = await isNormalUrl(element.url)
 
         if (response === false) {
-
-            isUpdate = true
 
             const type = await pool.query('SELECT * FROM "type-processor-cooling" WHERE id= $1;', [element.typeId])
 
@@ -68,7 +63,8 @@ export const SetProcessorCooling = async () => {
         }
 
     })
+}
 
-    return isUpdate
-
+export const SetProcessorCooling = () => {
+    main().then(r => console.log(r))
 }
