@@ -16,6 +16,8 @@
     "got": "^12.6.0",
     "pg": "^8.10.0",
     "postgresql": "^0.0.1",
-    "puppeteer": "^20.2.0"
+    "puppeteer": "^20.2.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
   }
 }
